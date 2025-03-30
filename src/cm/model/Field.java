@@ -3,6 +3,8 @@ package cm.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cm.controller.ExplosionException;
+
 public class Field {
 
     private final int row;
@@ -37,6 +39,44 @@ public class Field {
             return true;
         }else { return false; }
 
+    }
+
+    void switchFlag(){
+        if(!clear){
+            flagged = !flagged;
+        }
+    }
+
+    boolean clear(){
+        if(!clear && !flagged){
+            clear = true;
+
+            if(mined){
+                throw new ExplosionException();
+            }
+
+            if(safeNeighbors()){
+                neighbors.forEach(n -> n.clear());
+            }
+
+            return true;
+        } else { return false; }
+    }
+
+    boolean safeNeighbors(){
+        return neighbors.stream().noneMatch(n -> n.mined);
+    }
+
+    void mine(){
+        mined = true;
+    }
+
+    public boolean isFlagged(){
+        return flagged;
+    }
+
+    public boolean isClear(){
+        return clear;
     }
 
 }
