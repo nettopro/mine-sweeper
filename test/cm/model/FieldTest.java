@@ -101,4 +101,25 @@ public class FieldTest {
         assertTrue(field22.isClear() && !field11.isClear());
     }
 
+    @Test
+    void testRestartGame(){
+        field.mine();
+        field.switchFlag();
+        field.restart();
+        assertFalse(field.isClear() || field.isFlagged() || field.isMined());
+    }
+
+    @Test  
+    void testTwoMinesInNeighbors(){
+        Field field11 = new Field(1,1);
+        Field field12 = new Field(1,2);
+        field12.mine();
+        field11.mine();
+        Field field22 = new Field(2,2);
+        field22.addNeighbor(field11);
+        field22.addNeighbor(field12);
+
+        assertTrue(field22.minesInNeighbors() == 2);
+    }
+
 }
