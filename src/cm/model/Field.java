@@ -75,6 +75,10 @@ public class Field {
         return flagged;
     }
 
+    void setOpen(boolean open) {
+        this.open = open;
+    }
+
     public boolean isClear(){
         return open;
     }
